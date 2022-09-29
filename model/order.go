@@ -2,11 +2,18 @@ package model
 
 import "time"
 
-type OrderType int
+type OrderType bool
 
 const (
-	Sell = iota
-	Buy
+	Sell = true
+	Buy = false
+)
+
+type OrderStatus bool
+
+const (
+	Filled = true
+	Killed = false
 )
 
 type Order struct {
@@ -15,4 +22,5 @@ type Order struct {
 	Type     OrderType
 	Quantity int
 	Price    float64
+	Status   OrderStatus
 }
