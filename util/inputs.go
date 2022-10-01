@@ -1,189 +1,40 @@
 package util
 
-import (
-	"ht-matcher/model"
-	"time"
-)
+import "ht-matcher/model"
 
-var (
-	seq = 0
-)
-
-func nextSeq() int {
-	seq += 1
-	return seq
+var inputDataSet = []string{
+	`
+same|5.1|buy|10|1|neutral|*
+same|5.2|buy|10|2|neutral|*
+same|5.3|buy|10|3|neutral|*
+same|5.1|sell|10|4|neutral|*
+same|5.1|buy|10|5|neutral|*
+same|5.1|sell|70|6|neutral|*
+`,
+	`
+same|5.1|buy|10|1|neutral|*
+same|5.1|buy|10|2|neutral|*
+same|5.1|buy|50|3|neutral|*
+same|5.1|sell|10|4|neutral|*
+same|5.2|buy|10|5|neutral|*
+same|5.1|sell|10|6|neutral|*
+`,
+	`
+same|5.2|buy|10|1|neutral|*
+same|5.3|buy|10|2|neutral|*
+same|5.1|buy|50|3|neutral|*
+same|5.1|sell|10|4|neutral|*
+same|5.2|buy|10|5|neutral|*
+same|5.1|sell|40|6|neutral|*
+`,
 }
 
-func GenerateSampleOrders1() []model.Order {
-	var result []model.Order
+func GenerateSampleOrders(dataSetIdx int) []model.SimpleOrder {
+	var orders []model.SimpleOrder
 
-	result = append(
-		result,
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 50,
-			Price:    5.3,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 70,
-			Price:    5.3,
-			Status:   model.Neutral,
-		},
-	)
-
-	return result
-}
-
-func GenerateSampleOrders2() []model.Order {
-	var result []model.Order
-
-	result = append(
-		result,
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 50,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-	)
-
-	return result
-}
-
-func GenerateSampleOrders3() []model.Order {
-	var result []model.Order
-
-	result = append(
-		result,
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.3,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 50,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Neutral,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 40,
-			Price:    5.1,
-			Status:   model.Neutral,
-		},
-	)
-
-	return result
+	for _, r := range ConvertCsvToTuples(inputDataSet[dataSetIdx]) {
+		simpleOrder := ConvertTupleToSimpleOrder(r)
+		orders = append(orders, simpleOrder)
+	}
+	return orders
 }

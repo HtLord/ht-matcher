@@ -2,26 +2,48 @@ package model
 
 import "time"
 
-type OrderType bool
+type OrderType string
 
 const (
-	Sell OrderType = true
-	Buy  OrderType = false
+	SELL OrderType = "sell"
+	BUY            = "buy"
 )
 
-type OrderStatus int
+type OrderStatus string
 
 const (
-	Neutral OrderStatus = iota
-	Filled
-	Killed
+	NEUTRAL = "neutral"
+	FILLED  = "filled"
+	KILLED  = "killed"
 )
+
+type RunnableOrder interface {
+	getPrice() Price
+	getType() OrderType
+	getQuantity() int
+}
 
 type Order struct {
-	Sequence int
-	Time     time.Time
+	Price
 	Type     OrderType
 	Quantity int
-	Price    float64
+}
+
+type SimpleOrder struct {
+	Order
+	Sequence int
 	Status   OrderStatus
+	Time     time.Time
+}
+
+func (so SimpleOrder) getPrice() Price {
+	return so.Price
+}
+
+func (so SimpleOrder) getType() OrderType {
+	return so.Order.Type
+}
+
+func (so SimpleOrder) getQuantity() int {
+	return so.Order.Quantity
 }

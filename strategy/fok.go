@@ -9,7 +9,7 @@ const (
 	recursiveLimit = 10
 )
 
-func doFOK(inputs []model.Order) []int {
+func doFOK(inputs []model.SimpleOrder) []int {
 
 	orders = inputs
 
@@ -18,21 +18,23 @@ func doFOK(inputs []model.Order) []int {
 	}
 
 	testee := orders[0]
-	idxes := recursive(1, testee.Type, testee.Price, testee.Quantity, []int{})
-	if len(idxes) > 0 {
-		idxes = append(idxes, 0)
+	var idxes []int
+	if testee.Status == "neutral" {
+		idxes = recursive(1, testee.Type, testee.Price, testee.Quantity, []int{})
 	}
 
 	return idxes
 }
 
-func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) []int {
+func recursive(i int, orderType model.OrderType, p model.Price, q int, memo []int) []int {
 	if q == 0 {
 		memo = append(memo, 0)
 		return memo
 	}
 	if i == len(orders) {
-		fmt.Println("Hit end of orders")
+		if debug {
+			fmt.Println("Hit end of orders")
+		}
 		return nil
 	}
 
@@ -41,9 +43,9 @@ func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) [
 
 	tester := orders[i]
 
-	if tester.Status != model.Neutral ||
-		orderType == tester.Type ||
-		p != tester.Price ||
+	if tester.Status != "neutral" ||
+		orderType == tester.Order.Type ||
+		p.Number != tester.Order.Price.Number ||
 		q < tester.Quantity {
 		result1 = recursive(i+1, orderType, p, q, memo)
 	} else {
@@ -51,16 +53,18 @@ func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) [
 	}
 
 	if result2 != nil {
-		fmt.Printf("[%d] %v\n", i, result2)
 		return result2
 	}
 
 	if result1 != nil {
-		fmt.Printf("[%d] %v\n", i, result1)
 		return result1
 	}
 
-	fmt.Println("None match")
+	if debug {
+		fmt.Printf("Result 1 (lo priority)[%d] %v\n", i, result1)
+		fmt.Printf("Result 2 (hi priority)[%d] %v\n", i, result2)
+		fmt.Println("None match")
+	}
 
 	return nil
 }

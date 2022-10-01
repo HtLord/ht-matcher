@@ -6,31 +6,28 @@ import (
 )
 
 var (
-	orders []model.Order
+	orders []model.SimpleOrder
 )
 
 type Strategy int
 
 const (
-	FOK Strategy = iota
+	FOK   Strategy = iota
+	debug          = false
 )
 
-type Options struct {
-	DebugMode bool
-}
-
-func MarkFilled(inputs []model.Order, idxes []int) {
+func MarkFilled(inputs []model.SimpleOrder, idxes []int) {
 	for _, idx := range idxes {
-		inputs[idx].Status = model.Filled
+		inputs[idx].Status = model.FILLED
 	}
 }
 
-func MarkKilled(inputs []model.Order) []model.Order {
-	var newOrder []model.Order
+func MarkKilled(inputs []model.SimpleOrder) []model.SimpleOrder {
+	var newOrder []model.SimpleOrder
 
 	for _, input := range inputs {
-		if input.Status == model.Neutral {
-			input.Status = model.Killed
+		if input.Status == model.NEUTRAL {
+			input.Status = model.KILLED
 		}
 		newOrder = append(newOrder, input)
 	}
@@ -38,50 +35,53 @@ func MarkKilled(inputs []model.Order) []model.Order {
 	return newOrder
 }
 
-func Display(inputs []model.Order) {
+func Display(inputs []model.SimpleOrder) {
 	fmt.Println("[Display current round order(s)]")
 	for _, input := range inputs {
 		fmt.Printf("%v\n", input)
 	}
 }
 
-func SwapTargetToFirst(target int, inputs []model.Order) []model.Order {
+func SwapTargetToFirst(target int, inputs []model.SimpleOrder) []model.SimpleOrder {
 	newOrders := append(inputs)
 	newOrders[0], newOrders[target] = newOrders[target], newOrders[0]
 	return newOrders
 }
 
-func RecoverSequence(inputs []model.Order) []model.Order {
+func RecoverSequence(inputs []model.SimpleOrder) []model.SimpleOrder {
 	return append(inputs[1:], inputs[0])
 }
 
-func Run(inputs []model.Order, strategy Strategy) []model.Order {
+func Run(inputs []model.SimpleOrder, strategy Strategy) []model.SimpleOrder {
 	nextRoundInputs := append(inputs)
 
 	for i := 0; i < len(inputs); i++ {
 		nextRoundInputs = SwapTargetToFirst(i, inputs)
-		if inputs[0].Status != model.Neutral {
-			continue
-		}
 
 		var idxes []int
 		switch strategy {
 		default:
 			idxes = doFOK(nextRoundInputs)
+			if idxes != nil {
+				MarkFilled(nextRoundInputs, idxes)
+			}
 		case FOK:
 			idxes = doFOK(nextRoundInputs)
+			if idxes != nil {
+				MarkFilled(nextRoundInputs, idxes)
+			}
 		}
 
-		if idxes != nil {
-			MarkFilled(nextRoundInputs, idxes)
+		if debug {
+			Display(nextRoundInputs)
 		}
-
-		Display(nextRoundInputs)
 	}
 
 	inputs = MarkKilled(inputs)
 	inputs = RecoverSequence(inputs)
-	Display(inputs)
+	if debug {
+		Display(inputs)
+	}
 
 	return inputs
 }

@@ -2,179 +2,41 @@ package util
 
 import (
 	"ht-matcher/model"
-	"time"
 )
 
-func GenerateResultForSampleOrders1() []model.Order {
-	var result []model.Order
-
-	result = append(
-		result,
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Filled,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Killed,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 50,
-			Price:    5.3,
-			Status:   model.Killed,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Filled,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Killed,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 70,
-			Price:    5.3,
-			Status:   model.Killed,
-		},
-	)
-
-	return result
+var onputDataSet = []string{
+	`
+same|5.1|buy|10|1|filled|*
+same|5.2|buy|10|2|killed|*
+same|5.3|buy|10|3|killed|*
+same|5.1|sell|10|4|filled|*
+same|5.1|buy|10|5|killed|*
+same|5.1|sell|70|6|killed|*
+`,
+	`
+same|5.1|buy|10|1|filled|*
+same|5.1|buy|10|2|filled|*
+same|5.1|buy|50|3|killed|*
+same|5.1|sell|10|4|filled|*
+same|5.2|buy|10|5|killed|*
+same|5.1|sell|10|6|filled|*
+`,
+	`
+same|5.2|buy|10|1|killed|*
+same|5.3|buy|10|2|killed|*
+same|5.1|buy|50|3|filled|*
+same|5.1|sell|10|4|filled|*
+same|5.2|buy|10|5|killed|*
+same|5.1|sell|40|6|filled|*
+`,
 }
 
-func GenerateResultForSampleOrders2() []model.Order {
-	var result []model.Order
+func GenerateResultSampleOrders(dataSetIdx int) []model.SimpleOrder {
+	var orders []model.SimpleOrder
 
-	result = append(
-		result,
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Filled,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Filled,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 50,
-			Price:    5.1,
-			Status:   model.Killed,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Filled,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Killed,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Filled,
-		},
-	)
-
-	return result
-}
-
-func GenerateResultForSampleOrders3() []model.Order {
-	var result []model.Order
-
-	result = append(
-		result,
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Killed,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.3,
-			Status:   model.Killed,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 50,
-			Price:    5.1,
-			Status:   model.Filled,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 10,
-			Price:    5.1,
-			Status:   model.Filled,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Buy,
-			Quantity: 10,
-			Price:    5.2,
-			Status:   model.Killed,
-		},
-		model.Order{
-			Sequence: nextSeq(),
-			Time:     time.Now(),
-			Type:     model.Sell,
-			Quantity: 40,
-			Price:    5.1,
-			Status:   model.Filled,
-		},
-	)
-
-	return result
+	for _, r := range ConvertCsvToTuples(onputDataSet[dataSetIdx]) {
+		simpleOrder := ConvertTupleToSimpleOrder(r)
+		orders = append(orders, simpleOrder)
+	}
+	return orders
 }

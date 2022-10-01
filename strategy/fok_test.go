@@ -6,18 +6,18 @@ import (
 	"testing"
 )
 
-func equals(o1 model.Order, o2 model.Order) bool {
+func equals(o1 model.SimpleOrder, o2 model.SimpleOrder) bool {
 	return o1.Type == o2.Type &&
 		o1.Quantity == o2.Quantity &&
-		o1.Price == o2.Price &&
+		o1.Price.Number == o2.Price.Number &&
 		o1.Status == o2.Status
 }
 
-func checkResult(t *testing.T, inputs []model.Order, outputs []model.Order) {
+func checkResult(t *testing.T, inputs []model.SimpleOrder, outputs []model.SimpleOrder) {
 	inputs = Run(inputs, FOK)
 	for i := 0; i < len(inputs); i++ {
 		if !equals(inputs[i], outputs[i]) {
-			t.Errorf("Not fit when sequence is %d", i)
+			t.Errorf("Not fit when sequence is %d", i+1)
 		}
 	}
 }
@@ -25,23 +25,23 @@ func checkResult(t *testing.T, inputs []model.Order, outputs []model.Order) {
 func TestSingle1To1InTransaction(t *testing.T) {
 	checkResult(
 		t,
-		util.GenerateSampleOrders1(),
-		util.GenerateResultForSampleOrders1(),
+		util.GenerateSampleOrders(0),
+		util.GenerateResultSampleOrders(0),
 	)
 }
 
 func TestMultiple1To1InTransaction(t *testing.T) {
 	checkResult(
 		t,
-		util.GenerateSampleOrders2(),
-		util.GenerateResultForSampleOrders2(),
+		util.GenerateSampleOrders(1),
+		util.GenerateResultSampleOrders(1),
 	)
 }
 
 func TestSingle1ToNInTransaction(t *testing.T) {
 	checkResult(
 		t,
-		util.GenerateSampleOrders3(),
-		util.GenerateResultForSampleOrders3(),
+		util.GenerateSampleOrders(2),
+		util.GenerateResultSampleOrders(2),
 	)
 }
