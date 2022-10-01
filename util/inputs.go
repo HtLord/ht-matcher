@@ -1,6 +1,13 @@
 package util
 
-import "ht-matcher/model"
+import (
+	"encoding/csv"
+	"fmt"
+	"ht-matcher/model"
+	"io"
+	"log"
+	"os"
+)
 
 var inputDataSet = []string{
 	`
@@ -36,5 +43,38 @@ func GenerateSampleOrders(dataSetIdx int) []model.SimpleOrder {
 		simpleOrder := ConvertTupleToSimpleOrder(r)
 		orders = append(orders, simpleOrder)
 	}
+	return orders
+}
+
+func ReadCsvFromPath(filePath string) []model.SimpleOrder {
+	var orders []model.SimpleOrder
+
+	f, err := os.Open(filePath)
+	if err != nil {
+		log.Fatal("Unable to read input file "+filePath, err)
+	}
+	defer f.Close()
+
+	csvReader := csv.NewReader(f)
+	var csvstring string
+	for {
+		rec, err := csvReader.Read()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			log.Fatal(err)
+		}
+		// do something with read line
+		tmp := fmt.Sprintf("%s\n", rec)
+		csvstring = csvstring + tmp[1:len(tmp)-2] + "\n"
+	}
+
+	rs := ConvertCsvToTuples(csvstring)
+	for _, r := range rs {
+		so := ConvertTupleToSimpleOrder(r)
+		orders = append(orders, so)
+	}
+
 	return orders
 }
