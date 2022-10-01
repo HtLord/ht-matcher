@@ -34,9 +34,14 @@ same price. Display how deal been matched with each other.
 
 
 ### Outputs
-| sell seq | buy seq | quantity | price |
-|---|----|---|---|
-| 4 | 1 | 10 | 5.1|
+| timestamp | seq | action | quantity | orderType  | price | status |
+|---|---|--------|----------|------------|-------|--------|
+|2022-01-01T00:00:00Z| 1| buy    | 10       | same price | 5.1   | Filled |
+|2022-01-01T00:01:01Z| 2| buy    | 10       | same price | 5.2   | Killed |
+|2022-01-01T00:02:02Z| 3| buy    | 50       | same price | 5.3   | Killed |
+|2022-01-01T00:03:03Z| 4| sell   | 10       | same price | 5.1   | Filled |
+|2022-01-01T00:04:04Z| 5| buy    | 10       | same price | 5.2   | Killed |
+|2022-01-01T00:05:05Z| 6| sell   | 70       | same price | 5.3   | Killed |
 
 
 Think
@@ -70,9 +75,9 @@ Todos
 ---
 
 - [x] Design 1st version of solution
-- [ ] Create test case for basic logic
-- [ ] Create main logic which details are in 2nd question of question section
-- [ ] Test scenarios
+- [x] Create test case for basic logic
+- [x] Create main logic which details are in 2nd question of question section
+- [x] Test scenarios
 - [ ] Unit test 
 - [ ] Stubs
 - [ ] Create data model
