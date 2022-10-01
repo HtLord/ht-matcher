@@ -6,14 +6,15 @@ type OrderType bool
 
 const (
 	Sell = true
-	Buy = false
+	Buy  = false
 )
 
-type OrderStatus bool
+type OrderStatus int
 
 const (
-	Filled = true
-	Killed = false
+	Neutral = iota
+	Filled
+	Killed
 )
 
 type Order struct {

@@ -25,7 +25,7 @@ func GenerateSampleOrders() []model.Order {
 			Type:     model.Buy,
 			Quantity: 10,
 			Price:    5.1,
-			Status:   false,
+			Status:   model.Neutral,
 		},
 		model.Order{
 			Sequence: nextSeq(),
@@ -33,7 +33,7 @@ func GenerateSampleOrders() []model.Order {
 			Type:     model.Buy,
 			Quantity: 10,
 			Price:    5.2,
-			Status:   false,
+			Status:   model.Neutral,
 		},
 		model.Order{
 			Sequence: nextSeq(),
@@ -41,7 +41,7 @@ func GenerateSampleOrders() []model.Order {
 			Type:     model.Buy,
 			Quantity: 50,
 			Price:    5.3,
-			Status:   false,
+			Status:   model.Neutral,
 		},
 		model.Order{
 			Sequence: nextSeq(),
@@ -49,7 +49,7 @@ func GenerateSampleOrders() []model.Order {
 			Type:     model.Sell,
 			Quantity: 10,
 			Price:    5.1,
-			Status:   false,
+			Status:   model.Neutral,
 		},
 		model.Order{
 			Sequence: nextSeq(),
@@ -57,7 +57,7 @@ func GenerateSampleOrders() []model.Order {
 			Type:     model.Buy,
 			Quantity: 10,
 			Price:    5.2,
-			Status:   false,
+			Status:   model.Neutral,
 		},
 		model.Order{
 			Sequence: nextSeq(),
@@ -65,7 +65,7 @@ func GenerateSampleOrders() []model.Order {
 			Type:     model.Sell,
 			Quantity: 70,
 			Price:    5.3,
-			Status:   false,
+			Status:   model.Neutral,
 		},
 	)
 

@@ -13,12 +13,12 @@ var (
 	orders []model.Order
 )
 
-func FOK(inputs []model.Order) {
+func FOK(inputs []model.Order) []int {
 
 	orders = inputs
 
 	if orders == nil {
-		return
+		return nil
 	}
 
 	testee := orders[0]
@@ -27,7 +27,7 @@ func FOK(inputs []model.Order) {
 		idxes = append(idxes, 0)
 	}
 
-	markFilled(idxes)
+	return idxes
 }
 
 func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) []int {
@@ -46,7 +46,8 @@ func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) [
 		return append(memo, i)
 	}
 
-	if orderType == tester.Type ||
+	if tester.Status != model.Neutral ||
+		orderType == tester.Type ||
 		p != tester.Price ||
 		q < tester.Quantity {
 		result1 = recursive(i+1, orderType, p, q, memo)
@@ -54,12 +55,14 @@ func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) [
 		result2 = recursive(i+1, orderType, p, q-tester.Quantity, append(memo, i))
 	}
 
-	if result2 != nil {
+	if result2 != nil &&
+		q == 0 {
 		fmt.Printf("[%d] %v\n", i, result2)
 		return result2
 	}
 
-	if result1 != nil {
+	if result1 != nil &&
+		q == 0 {
 		fmt.Printf("[%d] %v\n", i, result1)
 		return result1
 	}
@@ -67,16 +70,4 @@ func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) [
 	fmt.Println("None match")
 
 	return nil
-}
-
-func markFilled(idxes []int) {
-	for _, idx := range idxes {
-		orders[idx].Status = model.Filled
-	}
-}
-
-func MarkKilled() {
-	for _, order := range orders {
-		order.Status = model.Killed
-	}
 }

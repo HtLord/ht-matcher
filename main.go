@@ -6,13 +6,21 @@ import (
 )
 
 func main() {
-	strategy.FOK(
-		util.GenerateSampleOrders(),
-	)
-	strategy.Reducer()
-	strategy.DisplayOrders()
-	// todo: logic
-	// todo: reading input stream
-	// todo: output input stream
-	// todo: looping with pause and restart
+	inputs := util.GenerateSampleOrders()
+	nextRoundInputs := append(inputs)
+
+	for i := 0; i < len(inputs); i++ {
+		nextRoundInputs = strategy.SwapTargetToFirst(i, inputs)
+		idxes := strategy.FOK(nextRoundInputs)
+
+		if idxes != nil {
+			strategy.MarkFilled(nextRoundInputs, idxes)
+		}
+
+		strategy.Display(nextRoundInputs)
+	}
+
+	inputs = strategy.MarkKilled(inputs)
+	inputs = strategy.RecoverSequence(inputs)
+	strategy.Display(inputs)
 }
