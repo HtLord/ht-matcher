@@ -9,11 +9,7 @@ const (
 	recursiveLimit = 10
 )
 
-var (
-	orders []model.Order
-)
-
-func FOK(inputs []model.Order) []int {
+func doFOK(inputs []model.Order) []int {
 
 	orders = inputs
 
