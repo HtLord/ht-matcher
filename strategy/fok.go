@@ -32,7 +32,7 @@ func recursive(i int, orderType model.OrderType, p model.Price, q int, memo []in
 		return memo
 	}
 	if i == len(orders) {
-		if debug {
+		if Debug {
 			fmt.Println("Hit end of orders")
 		}
 		return nil
@@ -60,7 +60,7 @@ func recursive(i int, orderType model.OrderType, p model.Price, q int, memo []in
 		return result1
 	}
 
-	if debug {
+	if Debug {
 		fmt.Printf("Result 1 (lo priority)[%d] %v\n", i, result1)
 		fmt.Printf("Result 2 (hi priority)[%d] %v\n", i, result2)
 		fmt.Println("None match")
