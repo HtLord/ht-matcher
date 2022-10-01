@@ -7,12 +7,12 @@ import (
 )
 
 func main() {
-	inputs := util.GenerateSampleOrders1()
+	inputs := util.GenerateSampleOrders3()
 	nextRoundInputs := append(inputs)
 
 	for i := 0; i < len(inputs); i++ {
 		nextRoundInputs = strategy.SwapTargetToFirst(i, inputs)
-		if inputs[i].Status != model.Neutral {
+		if inputs[0].Status != model.Neutral {
 			continue
 		}
 

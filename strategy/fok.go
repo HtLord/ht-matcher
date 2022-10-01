@@ -31,13 +31,13 @@ func FOK(inputs []model.Order) []int {
 }
 
 func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) []int {
-	if i == len(orders) {
-		fmt.Println("Hit end of orders")
-		return nil
-	}
 	if q == 0 {
 		memo = append(memo, 0)
 		return memo
+	}
+	if i == len(orders) {
+		fmt.Println("Hit end of orders")
+		return nil
 	}
 
 	var result1 []int
