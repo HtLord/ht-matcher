@@ -1,11 +1,11 @@
 package model
 
-type PriceType int
+type PriceType string
 
 const (
-	SamePrice = iota
-	MarketPrice
-	LimitPrice
+	SAME   PriceType = "same"
+	MARKET PriceType = "market"
+	LIMIT  PriceType = "limit"
 )
 
 type PriceMatcher interface {
@@ -15,4 +15,9 @@ type PriceMatcher interface {
 
 type SamePriceMatcher interface {
 	PriceMatcher
+}
+
+type Price struct {
+	Type   PriceType
+	Number float64
 }
