@@ -35,16 +35,15 @@ func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) [
 		fmt.Println("Hit end of orders")
 		return nil
 	}
+	if q == 0 {
+		memo = append(memo, 0)
+		return memo
+	}
 
 	var result1 []int
 	var result2 []int
 
 	tester := orders[i]
-
-	if p == tester.Price &&
-		q == tester.Quantity {
-		return append(memo, i)
-	}
 
 	if tester.Status != model.Neutral ||
 		orderType == tester.Type ||
@@ -55,14 +54,12 @@ func recursive(i int, orderType model.OrderType, p float64, q int, memo []int) [
 		result2 = recursive(i+1, orderType, p, q-tester.Quantity, append(memo, i))
 	}
 
-	if result2 != nil &&
-		q == 0 {
+	if result2 != nil {
 		fmt.Printf("[%d] %v\n", i, result2)
 		return result2
 	}
 
-	if result1 != nil &&
-		q == 0 {
+	if result1 != nil {
 		fmt.Printf("[%d] %v\n", i, result1)
 		return result1
 	}

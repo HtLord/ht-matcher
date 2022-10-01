@@ -5,14 +5,14 @@ import "time"
 type OrderType bool
 
 const (
-	Sell = true
-	Buy  = false
+	Sell OrderType = true
+	Buy  OrderType = false
 )
 
 type OrderStatus int
 
 const (
-	Neutral = iota
+	Neutral OrderStatus = iota
 	Filled
 	Killed
 )
