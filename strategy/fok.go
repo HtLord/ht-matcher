@@ -5,10 +5,16 @@ import (
 	"ht-matcher/model"
 )
 
-const (
-	recursiveLimit = 10
-)
+/*
+*
+doFOK is implementation of FOK business logic by DFS for fitting FIFO.
 
+todo: 1. Modify recursive style to while-loop style(will remove global constant dependencies)
+ 2. Enhance logging strategy and message
+ 3. Add abstracted price matching logic
+ 4. Survey, figure out, and fix why enum not working(items which is model.OrderStatus can not be
+    used in here
+*/
 func doFOK(inputs []model.SimpleOrder) []int {
 
 	orders = inputs
