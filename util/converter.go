@@ -1,3 +1,10 @@
+/*
+Convert csv will be cut into tuples by newline and returned as 2d-string and rest of converters
+will take its' returned data for converting to models
+
+Advance, more flexity for model converter, it may need ability to parse struct and auto convert from
+string to target type by using reflect mechanism.
+*/
 package util
 
 import (
