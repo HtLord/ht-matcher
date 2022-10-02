@@ -11,15 +11,14 @@ same price. Display how deal been matched with each other.
 
 ### Inputs(order type will not be implemented)
 
-| timestamp | seq | action | quantity | orderType  | price |
-|---|---|--------|----------|------------|-------|
-|2022-01-01T00:00:00Z| 1| buy    | 10       | same price | 5.1   | 
-|2022-01-01T00:01:01Z| 2| buy    | 10       | same price | 5.2   | 
-|2022-01-01T00:02:02Z| 3| buy    | 50       | same price | 5.3   | 
-|2022-01-01T00:03:03Z| 4| sell   | 10       | same price | 5.1   | 
-|2022-01-01T00:04:04Z| 5| buy    | 10       | same price | 5.2   | 
-|2022-01-01T00:05:05Z| 6| sell   | 70       | same price | 5.3   | 
-
+| price type | price | order type | quantity | sequence  | status | time |
+|------------|---|--------|----------|------------|-------|---|
+| same       |5.1|buy|10|1|neutral|*|
+| same       |5.2|buy|10|2|neutral|*|
+| same       |5.3|buy|10|3|neutral|*|
+| same       |5.1|sell|10|4|neutral|*|
+| same       |5.1|buy|10|5|neutral|*|
+| same       |5.1|sell|70|6|neutral|*|
 
 ### Steps
 
@@ -34,15 +33,14 @@ same price. Display how deal been matched with each other.
 
 
 ### Outputs
-| timestamp | seq | action | quantity | orderType  | price | status |
-|---|---|--------|----------|------------|-------|--------|
-|2022-01-01T00:00:00Z| 1| buy    | 10       | same price | 5.1   | Filled |
-|2022-01-01T00:01:01Z| 2| buy    | 10       | same price | 5.2   | Killed |
-|2022-01-01T00:02:02Z| 3| buy    | 50       | same price | 5.3   | Killed |
-|2022-01-01T00:03:03Z| 4| sell   | 10       | same price | 5.1   | Filled |
-|2022-01-01T00:04:04Z| 5| buy    | 10       | same price | 5.2   | Killed |
-|2022-01-01T00:05:05Z| 6| sell   | 70       | same price | 5.3   | Killed |
-
+| price type | price | order type | quantity | sequence  | status  | time |
+|------------|---|--------|----------|------------|---------|---|
+| same       |5.1|buy|10|1| filled  |*|
+| same       |5.2|buy|10|2| killed |*|
+| same       |5.3|buy|10|3| killed |*|
+| same       |5.1|sell|10|4| filled |*|
+| same       |5.1|buy|10|5| killed |*|
+| same       |5.1|sell|70|6| killed |*|
 
 Think
 ---
