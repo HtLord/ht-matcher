@@ -78,11 +78,11 @@ Todos
 - [x] Create test case for basic logic
 - [x] Create main logic which details are in 2nd question of question section
 - [x] Test scenarios
-- [ ] Unit test 
-- [ ] Stubs
-- [ ] Create data model
-- [ ] Create an input file each line stand for an order
-- [ ] Build as an executable command
+- [x] Unit test
+- ~~[ ] Stubs~~
+- [x] Create data model
+- [x] Create an input file each line stand for an order
+- [x] Build as an executable command
 
 
 System Enhancement
