@@ -1,6 +1,13 @@
 Ht-Matcher
 ===
 
+How to use
+---
+```bash
+./ht-matcher -f="/some/your/csv/data.csv"  // this will run once and show the result on console
+./ht-matcher -f="/some/your/csv/data.csv" -once=false // this will looping and listening file where you assigned
+```
+
 Goal
 ---
 
