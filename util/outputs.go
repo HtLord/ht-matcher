@@ -1,3 +1,7 @@
+/*
+*
+Generate expected outputs for testing
+*/
 package util
 
 import (

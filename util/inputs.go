@@ -1,3 +1,6 @@
+/**
+Generate input by csv for testing or real workflow by loading data from csv file
+*/
 package util
 
 import (
@@ -46,6 +49,21 @@ func GenerateSampleOrders(dataSetIdx int) []model.SimpleOrder {
 	return orders
 }
 
+/**
+ReadCsvFromPath will reading csv and convert it into simple orders. The sequence of csv must fit model's
+order from top to buttom.
+e.g.
+type A struct {
+	a1 string
+	B
+}
+type B struct {
+	b1 string
+    b2 string
+}
+---
+a1|b1|b2
+*/
 func ReadCsvFromPath(filePath string) []model.SimpleOrder {
 	var orders []model.SimpleOrder
 
